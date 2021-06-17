@@ -16,8 +16,131 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h1>"Top-level await"</h1>
+				</section>
+				<section>
+					<h2 style="color: blueviolet;">JavaScript is a very flexible and powerful language</h2>
+					<p>that has transformed the web in this modern era.
+						 <br>One of the main reasons for JavaScript <br>to be dominant in web development <br>is that 
+						 it is continuously improved <br>with major updates often</p>
+				</section>
+				<section>
+					<h2 style="color: rgb(226, 43, 165);">“top-level await” <a href="https://github.com/tc39/proposal-top-level-await">proposal</a></h2>
+					<p>This particular feature enables ES modules to act <br>as <span style="color: rgb(226, 43, 165);">async</span> functions. 
+						It allows ES modules to <span style="color: rgb(226, 43, 165);">await</span> resources and block other modules who <span style="color: rgb(226, 43, 165);">import</span> them. 
+						The modules who <span style="color: rgb(226, 43, 165);">import</span> an awaiting resource can only evaluate the body after the resources have been settled and are ready.</p>
+				</section>
+				<section>
+					<h2 style="color: rgb(43, 226, 83);">"await"</h2>
+					<p>The <span style="color: rgb(43, 226, 83);">"await"</span>  operator is used to wait for a Promise. <br>It can only be used inside an <span style="color: rgb(43, 226, 83);">async function</span> </p>
+				</section>
+				<section>
+					<img src="img/1.png" alt="">
+				</section>
+				<section>
+					<h2 style="color: blueviolet;">What was wrong with the pre-top-level era?</h2>
+				</section>
+				<section>
+					<h4>Syntax error</h4>
+					<img src="img/2.png" alt="">
+				</section>
+				<section>
+					<h4>Immediately Invoked Function Expressions (IIFEs)</h4>
+					<img src="img/3.png" alt="">
+				</section>
+				<section>
+					<h2 style="color: rgb(226, 43, 165);">But the above instance and solution is just the tip of the iceberg</h2>
+				</section>
+				<section>
+					<img src="img/4.png" alt="">
+				</section>
+				<section>
+					<img src="img/5.png" alt="">
+				</section>
+				<section>
+					<h3 style="color: rgb(43, 226, 83);">Workarounds</h3>
+					<ul>
+						<li>Export a Promise to represent initialization</li>
+						<li>Resolve the IIFE promise with the variables that should be exported</li>
+					</ul>
+				</section>
+				<section>
+					<h3 style="color: rgb(43, 226, 83);">1. Export a Promise to represent initialization</h3>
+				</section>
+				<section>
+					<img src="img/6.png" alt="">
+				</section>
+				<section>
+					<img src="img/7.png" alt="">
+				</section>
+				<section>
+					<h3 style="color: rgb(226, 43, 165);">Problems</h3>
+					<ul>
+						<li>Everyone should start following this pattern as a standard as you have to find the right promise to wait.</li>
+						<li>If another module depends on the variables <span style="font-size: smaller; color: rgb(226, 43, 165);">squareOutput</span> and <span style="font-size: smaller; color: rgb(226, 43, 165);">diagonalOutput</span> from <span style="font-size: smaller; color: rgb(226, 43, 165);">main.js</span>, we should make sure we re-export the IIFE promise as well. So that the other module too knows when to access our variables.</li>
+					</ul>
+				</section>
+				<section>
+					<h3 style="color: rgb(43, 226, 83);">2. Resolve the IIFE promise with the variables that should be exported</h3>
+				</section>
+				<section>
+					<img src="img/8.png" alt="">
+				</section>
+				<section>
+					<img src="img/9.png" alt="">
+				</section>
+				<section>
+					<h3 style="color: rgb(226, 43, 165);">Problems</h3>
+					<p>This pattern has the undesirable effect of requiring a broad reorganization of the related source into more dynamic patterns and placing much of the module body inside the <span style="font-size: smaller; color: rgb(226, 43, 165);">.then()</span>  callback in order to use the dynamically available imports. 
+						<br>This represents a significant regression in terms of static analyzability, testability, ergonomics, and more, compared to ES2015 modules.</p>
+				</section>
+				<section>
+					<h2 style="color: blueviolet;">How <span style="color: rgb(226, 43, 165);">Top-level Await</span> Addresses the Above Problem?</h2>
+				</section>
+				<section>
+					<span style="color: rgb(226, 43, 165);">Top-level await</span> allows us to let the module system take care of the promises and the coordination amongst them. This makes it really simple on our end.
+				</section>
+				<section>
+					<img src="img/10.png" alt="">
+				</section>
+				<section>
+					<img src="img/11.png" alt="">
+				</section>
+				<section>
+					<h2 style="color: rgb(226, 43, 165);">Implementation</h2>
+					<ul>
+						<li><span style="color: blueviolet; font-weight: bolder;">V8</span><br>(chrome.exe --js-flags="--harmony-top-level-await")</li>
+						<li><span style="color: blueviolet; font-weight: bolder;">Webpack</span><br>(>5.0.0, experiments option)</li>
+						<li><span style="color: blueviolet; font-weight: bolder;">Babel</span><br>(babel/plugin-syntax-top-level-await)</li>
+					</ul>
+				</section>
+				<section>
+					<img src="img/12.png" alt="">
+				</section>
+				<section>
+					<h2 style="color: rgb(43, 226, 83);">Cases of usage</h2>
+					<ul>
+						<li>Dynamic dependency pathing</li>
+						<li>Resource initialization</li>
+						<li>Dependency fallbacks</li>
+					</ul>
+				</section>
+				<section>
+					<h3 style="color: rgb(226, 43, 165);">Dynamic dependency pathing</h3>
+					<img src="img/13.png" alt="">
+				</section>
+				<section>
+					<h3 style="color: rgb(226, 43, 165);">Resource initialization</h3>
+					<img src="img/14.png" alt="">
+				</section>
+				<section>
+					<h3 style="color: rgb(226, 43, 165);">Dependency fallbacks</h3>
+					<img src="img/15.png" alt="">
+				</section>
+
+				<section>Thank you for attention</section>
+
 			</div>
 		</div>
 
